@@ -1,0 +1,55 @@
+Analysis of Data
+Step 1: Studied the data in different files and understood the data with the help of data dictionary
+Step 2: Identified links between data
+
+Dataset Upload
+Step 3: While uploading data as dataset in csv format Einstein Analytics was not able to identify the text and date columns as everything got treated as number by default because all values in customer flight activity is numbers and it needs atleast one column as text and date for the upload. So downloaded the json file of the data and made updates in the meta data to assign proper type (text, numeric, date) to each field and then uploaded the dataset.
+Step 4: The field 'Loyalty Number' was changed to Text from Numeric and  in the JSON file so that they can be treated as dimensions and not measures. Alternatively we can just change one field in the JSON and upload the file and datatype of remaining field can be changed at the edit attribute page that pops up while upload a file as a dataset.
+Step 5: Replaced the JSON file of the dataset with the updated one and uploaded the dataset file 'Customer Flight Activity.csv'.
+Step 6: Finally verified that all fields have correct data types at the 'Edit Attributes' page that pops up while uploading the dataset. At this stage I identified that field 'Distance' and 'Dollar Cost Points Redeemed' can be in decimals (although it is not there in the dataset but for future proofing the dataset), so I added a scale of 2 to these fields and changes 'Year' and 'Month' to dimensions.
+Step 7: Uplaoded the dataset.
+Step 8: While uplaoding the 'Customer Loyalty History.csv' I added scale of '2' to the 'Salary' field and changed 'Year', 'Month' fields to dimensions
+Step 9: I Uploaded the Calendar file.
+
+Recipe Building
+Step 10: I prepared the architecture of how I want the data to look like to support my analysis. I used the calendar dataset and the 'Date' field in that dataset as one field that will relate to all the datasets and will allow the user to traverse through all my input nodes in the dataset so that there is only one date field onto the dashboard that talks to all the widgets.
+Step 11: I took and approach to divide the datasets into three parts enrollment data, cancellation data and activities data
+Step 12: So I brought in the data 'Customer Loyalty History' and made two part of it of which one was Enrollment and other was Cancellation.
+Step 13: Then I added the calendar dates to both these parts after required transformations and filterations.
+Step 14: Then I brought in the 'Customer Flight Activity' data and added the calendar dates to this data as well.
+Step 15: After this I appeded the three parts so now I have only one date that will tell me activity, enrollments and cancellations
+Step 16: After this I used a combinaton of 'Loyalty Number' field and a derived field called 'Record Type' that I created which marks each row as enrollment, cancellation or activity. Then I added all the three parts of the data to itself by using of combination of these keys so that I can create a big dataset using which I can see at a particular point in time what was the activity done and when this activity was done was a Customer, Member or not. This approach also future proofs the dataset for any other further cross analysis with the same dataset
+Step 17: Run the recipe!
+
+Dashboard
+Step 18: On the top of the dashboard one tile on the left tells comparing the number of customer we had in year 2017 what is our growth in 2018. Likewise the tile on the right shows the same data but for number of flights booked.
+Step 19: Then on the left hand side all the filters are there that will apply to all other components of the dashboard other than the tiles on top.
+Step 20: At the center we see a line chart which shows us the progress over the period and likewise the period over period chart below it shows the period over period progress or fall. The navigation on the top of the chart helps to choose user whether they want to see enrollments, flights booked or distance travelled overtime
+Step 21: Then there is the pie chart that groups city, gender and marital status to give and idea about the demographice of the companies customers. Toggle buttons on the top helps to change chart groupings.
+Step 22: The Bar chart to the right shows top 100 customers based on points accumulated and flights taken
+Step 23: Then at the bottom we have the details table.
+
+
+Business Questions
+
+How is the airline’s loyalty program performing over time?
+1. Assuming the data given to us is the only data available for this analysis, we see from the top left tile on the dashboard that memberships have increased 21% from previous period and along with the increasing member the flights booked have also increased by 29%. So we see a direct relation that the membership program is performing well.
+2. Also we see in the line chart that enrollments are growing over the period at a average of 200 enrollments per month. But along with this we also see that the Cancellations are also increasing at the rate of 27% over the period which needs to be looked into.
+3. Overall we see the loyalty program to be performing averagely.
+
+Are sign-ups increasing?
+1. Yes we see from the timeline chart that the signups are increasing
+
+Are these sign-ups translating into long-term customer retention or association?
+1. Yes as we see from the timebar chart and the tiles on the top of the dashboard that association of members is very high than non members.
+
+Do loyalty program members show higher engagement compared to non-members (e.g., number of
+flights taken, frequency, spend)?
+1. Yes it is very clear from the dashboard that loyalty program members show commendable engagement as compared to non members
+
+Based on demographic and behavioral data, can you identify what an ideal loyalty program customer
+looks like?
+
+Highlight any other trends or anomalies that may be useful for business decisions (e.g., seasonal
+patterns, churn risks, high-value customer segments).
+I see seasonal patterns in flights booked that more number of flights are booked in the month of May, June, July and December while there is a decline in flight bookings in January, April, August and September
